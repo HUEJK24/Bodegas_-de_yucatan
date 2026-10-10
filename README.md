@@ -16,12 +16,13 @@ Sitio **estático** (HTML + CSS + JavaScript), sin dependencias ni build.
 ## Estructura
 
 ```
-index.html        Home
-bodegas.html      Catálogo
-bodega.html       Detalle (?id=<slug>)
-servicios.html    Servicios
-nosotros.html     Nosotros
-contacto.html     Contacto
+index.html            Home (raíz)
+paginas/
+  bodegas.html        Catálogo
+  bodega.html         Detalle (?id=<slug>)
+  servicios.html      Servicios
+  nosotros.html       Nosotros
+  contacto.html       Contacto
 assets/css/styles.css
 assets/js/data.js
 assets/js/main.js
@@ -34,14 +35,14 @@ No requiere servidor. Abre `index.html` en el navegador.
 Para probar el detalle con parámetro, abre:
 
 ```
-bodega.html?id=bodega-crit-13
+paginas/bodega.html?id=bodega-crit-13
 ```
 
 En Windows (PowerShell):
 
 ```powershell
 $base = (Get-Location).Path -replace '\\','/'
-Start-Process "file:///$base/bodega.html?id=bodega-crit-13"
+Start-Process "file:///$base/paginas/bodega.html?id=bodega-crit-13"
 ```
 
 ## Cómo editar el contenido

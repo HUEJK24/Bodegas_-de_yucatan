@@ -31,7 +31,7 @@ function construirTarjeta(b) {
         <div class="tarjeta-chips">${chips}</div>
         <div class="tarjeta-pie">
           <div class="precio">$${formatoPrecio(b.precio).replace("$", "")}<small>${b.area} m² · por mes</small></div>
-          <a class="btn btn-linea" href="bodega.html?id=${b.id}">Ver detalles</a>
+          <a class="btn btn-linea" href="${RUTA_PAGINAS}bodega.html?id=${b.id}">Ver detalles</a>
         </div>
       </div>
     </article>`;
@@ -253,7 +253,7 @@ function cargarDetalle() {
   ).join("");
 
   cont.innerHTML = `
-    <p class="volver"><a href="bodegas.html">← Volver al catálogo</a></p>
+    <p class="volver"><a href="${RUTA_PAGINAS}bodegas.html">← Volver al catálogo</a></p>
     <div class="detalle-grid">
       <div>
         <div class="carousel" id="carousel">

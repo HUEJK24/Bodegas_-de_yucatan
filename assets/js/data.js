@@ -1,5 +1,11 @@
 /* Datos del sitio. Para agregar una bodega, copia un bloque y ajusta los campos. */
 
+/* Rutas relativas segun la ubicacion de la pagina (raiz o carpeta paginas/). */
+const EN_PAGINAS = /\/paginas\//.test(location.pathname);
+const RUTA_RAIZ = EN_PAGINAS ? "../" : "";
+const RUTA_PAGINAS = EN_PAGINAS ? "" : "paginas/";
+
+
 const SITIO = {
   nombre: "Bodegas de Yucatán",
   telefono: "+52 999 123 4567",
@@ -175,6 +181,12 @@ const BODEGAS = [
     descripcion: "Bodega de gran formato en el complejo más moderno de la zona poniente. Ideal para operaciones logísticas de gran escala.",
   }
 ];
+
+/* Ajusta las rutas de imagen a la ubicacion de la pagina actual. */
+BODEGAS.forEach((b) => {
+  b.imagen = RUTA_RAIZ + b.imagen;
+  b.fotos = b.fotos.map((f) => RUTA_RAIZ + f);
+});
 
 function formatoPrecio(n) {
   return new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(n);

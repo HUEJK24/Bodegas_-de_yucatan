@@ -30,8 +30,10 @@ lines, observabilidad, calidad y seguridad.
 
 ```
 Bodegas_ de_yucatan/
-|-- index.html, bodegas.html, bodega.html,
-|   servicios.html, nosotros.html, contacto.html   # páginas
+|-- index.html                                     # home (raíz)
+|-- paginas/                                       # páginas principales
+|   |-- bodegas.html, bodega.html                  # catálogo y detalle
+|   `-- servicios.html, nosotros.html, contacto.html
 |-- assets/
 |   |-- css/styles.css                             # sistema visual
 |   |-- js/data.js                                 # datos (SITIO + BODEGAS)
@@ -48,7 +50,7 @@ Bodegas_ de_yucatan/
 
 - `node --check assets/js/data.js` y `node --check assets/js/main.js`.
 - Que todas las rutas `assets/img/*.jpg` existan.
-- Abrir `index.html` y `bodega.html?id=<slug>` en el navegador.
+- Abrir `index.html` y `paginas/bodega.html?id=<slug>` en el navegador.
 
 ## Checklist
 

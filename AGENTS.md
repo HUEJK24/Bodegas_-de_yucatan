@@ -7,12 +7,13 @@ Mérida, Yucatán). Sin build ni frameworks: HTML + CSS propio + JavaScript vani
 
 ```
 index.html          Home (hero, métricas, complejos, destacadas, CTA)
-bodegas.html        Catálogo con filtro por complejo (#filtroComplejo)
-bodega.html         Plantilla de detalle (?id=<slug>) con carrusel, lightbox,
+paginas/
+  bodegas.html      Catálogo con filtro por complejo (#filtroComplejo)
+  bodega.html       Plantilla de detalle (?id=<slug>) con carrusel, lightbox,
                     compartir e imprimir/PDF
-servicios.html      Servicios
-nosotros.html       Nosotros
-contacto.html       Contacto
+  servicios.html    Servicios
+  nosotros.html     Nosotros
+  contacto.html     Contacto
 assets/css/styles.css   Sistema visual completo (tokens, componentes, print)
 assets/js/data.js       Datos: SITIO + arreglo BODEGAS (fuente de verdad)
 assets/js/main.js       Render de tarjetas/catálogo/detalle + interacción
@@ -25,12 +26,15 @@ demo_bodega_imprimir.pdf  Referencia del documento imprimible
 ## Comandos
 
 - Verificar JS: `node --check assets/js/data.js` y `node --check assets/js/main.js`
-- Abrir el sitio: abrir `index.html` y `bodega.html?id=bodega-crit-13` en el navegador
+- Abrir el sitio: abrir `index.html` y `paginas/bodega.html?id=bodega-crit-13` en el navegador
 - (Windows PowerShell) abrir con URL file:// para probar el query `?id=`
 
 ## Convenciones
 
 - **Datos centralizados** en `assets/js/data.js`; no hardcodear contenido en el HTML.
+- **Rutas**: `index.html` vive en la raíz y las páginas principales en `paginas/`.
+  `data.js` calcula `RUTA_RAIZ` / `RUTA_PAGINAS` según la ubicación, y `main.js`
+  las usa para enlaces e imágenes; al añadir páginas, mantener estas rutas.
 - **Diseño**: minimalista, sobrio, corporativo. Tokens en `:root` de `styles.css`.
   Acento verde `#1c6b57`, tinta `#111827`, líneas `#e5e7eb`. Sin degradados ni
   sombras pesadas. Reutilizar clases existentes (`.btn`, `.tarjeta`, `.seccion`,
