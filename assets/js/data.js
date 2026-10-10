@@ -3,6 +3,7 @@
 const SITIO = {
   nombre: "Bodegas de Yucatán",
   telefono: "+52 999 123 4567",
+  telefonoLink: "+529991234567",
   whatsapp: "529991234567", // numero para wa.me (sin signos)
   correo: "ventas@bodegasdeyucatan.mx",
   direccion: "Av. Prolongación Montejo, Mérida, Yucatán",
@@ -25,9 +26,9 @@ const BODEGAS = [
     seguridad: "Caseta 24/7 y acceso controlado",
     oficinas: "1 oficina",
     estado: "Disponible",
-    icono: "🏭",
+    imagen: "assets/img/bodega-1.jpg",
+    fotos: ["assets/img/bodega-1.jpg", "assets/img/interior-1.jpg", "assets/img/bodega-2.jpg", "assets/img/interior-2.jpg"],
     descripcion: "Bodega industrial de 693 m² ubicada en el Complejo CRIT, con excelente acceso a periférico y avenidas principales. Ideal para almacenaje y distribución.",
-    fotos: ["🏭", "📦", "🚚", "🏢"]
   },
   {
     id: "bodega-crit-14",
@@ -43,9 +44,9 @@ const BODEGAS = [
     seguridad: "Caseta 24/7 y circuito cerrado",
     oficinas: "2 oficinas",
     estado: "Disponible",
-    icono: "🏭",
+    imagen: "assets/img/bodega-2.jpg",
+    fotos: ["assets/img/bodega-2.jpg", "assets/img/interior-1.jpg", "assets/img/bodega-5.jpg", "assets/img/interior-2.jpg"],
     descripcion: "Amplia nave con 2 andenes de carga y maniobrabilidad para tráiler. Cuenta con patio de maniobras y estacionamiento.",
-    fotos: ["🏭", "🚚", "📦", "🏢"]
   },
   {
     id: "bodega-poniente-01",
@@ -61,9 +62,9 @@ const BODEGAS = [
     seguridad: "Guardia 24/7 y CCTV",
     oficinas: "Oficinas administrativas",
     estado: "Disponible",
-    icono: "🏗️",
+    imagen: "assets/img/bodega-3.jpg",
+    fotos: ["assets/img/bodega-3.jpg", "assets/img/interior-2.jpg", "assets/img/bodega-4.jpg", "assets/img/interior-1.jpg"],
     descripcion: "Nave premium en el corredor industrial poniente, con andén a nivel y acceso directo desde el periférico.",
-    fotos: ["🏗️", "🚚", "📦", "🏢"]
   },
   {
     id: "bodega-poniente-02",
@@ -79,9 +80,9 @@ const BODEGAS = [
     seguridad: "Acceso controlado",
     oficinas: "Sin oficinas",
     estado: "Disponible",
-    icono: "🏗️",
+    imagen: "assets/img/bodega-5.jpg",
+    fotos: ["assets/img/bodega-5.jpg", "assets/img/interior-1.jpg", "assets/img/bodega-6.jpg", "assets/img/interior-2.jpg"],
     descripcion: "Opción de entrada para pequeñas y medianas empresas que requieren almacenamiento seguro cerca de la ciudad.",
-    fotos: ["🏗️", "📦", "🚚", "🏢"]
   },
   {
     id: "bodega-carretera-05",
@@ -97,9 +98,9 @@ const BODEGAS = [
     seguridad: "Caseta y cercado perimetral",
     oficinas: "1 oficina",
     estado: "Disponible",
-    icono: "🛣️",
+    imagen: "assets/img/bodega-4.jpg",
+    fotos: ["assets/img/bodega-4.jpg", "assets/img/interior-2.jpg", "assets/img/bodega-1.jpg", "assets/img/interior-1.jpg"],
     descripcion: "Ubicación estratégica sobre la carretera a Progreso, ideal para logística y distribución hacia el puerto.",
-    fotos: ["🛣️", "🚚", "📦", "🏢"]
   },
   {
     id: "bodega-kancun-07",
@@ -115,9 +116,9 @@ const BODEGAS = [
     seguridad: "Guardia 24/7, CCTV y acceso vehicular",
     oficinas: "Oficinas + baños",
     estado: "Disponible",
-    icono: "🏭",
+    imagen: "assets/img/bodega-6.jpg",
+    fotos: ["assets/img/bodega-6.jpg", "assets/img/interior-1.jpg", "assets/img/bodega-3.jpg", "assets/img/interior-2.jpg"],
     descripcion: "Centro de distribución de gran formato con múltiples andenes y patio amplio para maniobras de tráiler.",
-    fotos: ["🏭", "🚚", "📦", "🏢"]
   },
   {
     id: "bodega-construccion-90",
@@ -133,9 +134,9 @@ const BODEGAS = [
     seguridad: "A definir según proyecto",
     oficinas: "A definir",
     estado: "Construcción",
-    icono: "🏗️",
+    imagen: "assets/img/bodega-7.jpg",
+    fotos: ["assets/img/bodega-7.jpg", "assets/img/interior-1.jpg", "assets/img/bodega-4.jpg", "assets/img/interior-2.jpg"],
     descripcion: "Construimos la bodega que tu operación necesita y te la entregamos en 90 días. Diseño, permisos y obra incluidos.",
-    fotos: ["🏗️", "📦", "🚚", "🏢"]
   },
   {
     id: "bodega-crit-15",
@@ -151,9 +152,9 @@ const BODEGAS = [
     seguridad: "Caseta 24/7",
     oficinas: "1 oficina",
     estado: "Rentada",
-    icono: "🏭",
+    imagen: "assets/img/bodega-1.jpg",
+    fotos: ["assets/img/bodega-1.jpg", "assets/img/interior-2.jpg", "assets/img/bodega-5.jpg", "assets/img/interior-1.jpg"],
     descripcion: "Nave versátil en el Complejo CRIT, con buena altura libre y superficie uniforme para racks de almacenamiento.",
-    fotos: ["🏭", "🚚", "📦", "🏢"]
   },
   {
     id: "bodega-poniente-03",
@@ -169,9 +170,9 @@ const BODEGAS = [
     seguridad: "Guardia 24/7, CCTV y acceso peatonal controlado",
     oficinas: "Oficinas administrativas completas",
     estado: "Disponible",
-    icono: "🏗️",
-    descripcion: "Bodega clase A en el complejo más moderno de la zona poniente. Ideal para operaciones logísticas de gran escala.",
-    fotos: ["🏗️", "🚚", "📦", "🏢"]
+    imagen: "assets/img/bodega-3.jpg",
+    fotos: ["assets/img/bodega-3.jpg", "assets/img/interior-1.jpg", "assets/img/bodega-6.jpg", "assets/img/interior-2.jpg"],
+    descripcion: "Bodega de gran formato en el complejo más moderno de la zona poniente. Ideal para operaciones logísticas de gran escala.",
   }
 ];
 
