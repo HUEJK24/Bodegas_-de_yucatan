@@ -66,6 +66,10 @@ demo_bodega_imprimir.pdf  Referencia del documento imprimible
 - `composio-skills-catalog` — cuándo/cómo crear una skill repetible.
 - `everything-claude-code` — orden, memoria y calidad (este flujo).
 - `awesome-claude-code` — buenas prácticas y estructura.
+- `mobile-first` — responsive sin frameworks (principios de Tailwind), breakpoints.
+- `ux-tactil-nativa` — áreas táctiles 48px, menú móvil, carrusel (principios de Ionic).
+- `componentes-accesibles` — overlays: lightbox/modales con ARIA y foco (shadcn/Radix).
+- `material-design-3` — espaciado 8dp, estados, elevación y motion (Material Web).
 
 > Nota: opencode carga config/skills **al iniciar**; reinicia opencode tras editar
 > `opencode.json` o las skills.

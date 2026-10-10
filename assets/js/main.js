@@ -71,6 +71,7 @@ function cargarCatalogo() {
 }
 
 const lightbox = { total: 0, actual: 0, fotos: [], titulo: "" };
+let lightboxTrigger = null;
 
 function construirDocumentoImpresion(b, fotos) {
   const fecha = new Date().toLocaleDateString("es-MX", { day: "2-digit", month: "long", year: "numeric" });
@@ -167,7 +168,12 @@ function iniciarCarrusel(total) {
   if (prev) prev.addEventListener("click", () => mostrar(actual - 1));
   if (next) next.addEventListener("click", () => mostrar(actual + 1));
   thumbs.forEach((t) => t.addEventListener("click", () => mostrar(Number(t.dataset.indice))));
-  slides.forEach((s) => s.addEventListener("click", () => abrirLightbox(Number(s.dataset.indice))));
+  slides.forEach((s) => {
+    s.addEventListener("click", () => abrirLightbox(Number(s.dataset.indice)));
+    s.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrirLightbox(Number(s.dataset.indice)); }
+    });
+  });
 }
 
 function iniciarLightbox(fotos, titulo) {
@@ -182,6 +188,9 @@ function iniciarLightbox(fotos, titulo) {
   el = document.createElement("div");
   el.id = "lightbox";
   el.className = "lightbox";
+  el.setAttribute("role", "dialog");
+  el.setAttribute("aria-modal", "true");
+  el.setAttribute("aria-label", titulo ? "Galería de " + titulo : "Galería de imágenes");
   el.innerHTML = `
     <button class="lightbox-accion lightbox-cerrar" type="button" aria-label="Cerrar">${SVG_CERRAR}</button>
     ${fotos.length > 1 ? `<button class="lightbox-accion lightbox-nav prev" type="button" aria-label="Anterior">${SVG_PREV}</button><button class="lightbox-accion lightbox-nav next" type="button" aria-label="Siguiente">${SVG_NEXT}</button>` : ""}
@@ -200,6 +209,14 @@ function iniciarLightbox(fotos, titulo) {
     if (e.key === "Escape") cerrarLightbox();
     if (e.key === "ArrowRight") navegarLightbox(1);
     if (e.key === "ArrowLeft") navegarLightbox(-1);
+    if (e.key === "Tab") {
+      const foco = [...el.querySelectorAll("button")];
+      if (!foco.length) return;
+      const primero = foco[0];
+      const ultimo = foco[foco.length - 1];
+      if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+      else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+    }
   });
 }
 
@@ -209,11 +226,18 @@ function abrirLightbox(i) {
   lightbox.actual = i;
   actualizarLightbox();
   el.classList.add("abierto");
+  lightboxTrigger = document.activeElement;
+  document.body.style.overflow = "hidden";
+  const btnCerrar = el.querySelector(".lightbox-cerrar");
+  if (btnCerrar) btnCerrar.focus();
 }
 
 function cerrarLightbox() {
   const el = document.getElementById("lightbox");
   if (el) el.classList.remove("abierto");
+  document.body.style.overflow = "";
+  if (lightboxTrigger && typeof lightboxTrigger.focus === "function") lightboxTrigger.focus();
+  lightboxTrigger = null;
 }
 
 function navegarLightbox(dir) {
@@ -246,7 +270,7 @@ function cargarDetalle() {
   const multi = fotos.length > 1;
 
   const slides = fotos.map((f, i) =>
-    '<img class="carousel-slide' + (i === 0 ? " activo" : "") + '" src="' + f + '" alt="' + b.titulo + " " + (i + 1) + '" data-indice="' + i + '"' + (i === 0 ? "" : ' loading="lazy"') + ">"
+    '<img class="carousel-slide' + (i === 0 ? " activo" : "") + '" src="' + f + '" alt="' + b.titulo + " " + (i + 1) + '" data-indice="' + i + '" tabindex="0" role="button" aria-label="Ampliar imagen ' + (i + 1) + '"' + (i === 0 ? "" : ' loading="lazy"') + ">"
   ).join("");
   const thumbs = fotos.map((f, i) =>
     '<img class="carousel-thumb' + (i === 0 ? " activo" : "") + '" src="' + f + '" alt="Miniatura ' + (i + 1) + '" data-indice="' + i + '" loading="lazy">'
@@ -322,7 +346,30 @@ function inyectarWhatsApp() {
 function initMenu() {
   const toggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector(".nav");
-  if (toggle && nav) toggle.addEventListener("click", () => nav.classList.toggle("abierto"));
+  if (!toggle || !nav) return;
+
+  if (!nav.id) nav.id = "navPrincipal";
+  toggle.setAttribute("aria-controls", nav.id);
+  toggle.setAttribute("aria-expanded", "false");
+
+  const cerrar = () => {
+    nav.classList.remove("abierto");
+    toggle.setAttribute("aria-expanded", "false");
+  };
+
+  toggle.addEventListener("click", () => {
+    const abierto = nav.classList.toggle("abierto");
+    toggle.setAttribute("aria-expanded", abierto ? "true" : "false");
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && nav.classList.contains("abierto")) cerrar();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!nav.classList.contains("abierto")) return;
+    if (!nav.contains(e.target) && !toggle.contains(e.target)) cerrar();
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -38,10 +38,16 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(28, 107, 87, .18);
 }
 
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
+
+a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--acento); outline-offset: 2px; border-radius: var(--radio-sm);
+}
 
 h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
 
@@ -60,10 +66,11 @@ h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em;
 /* ---------------- Botones ---------------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 11px 20px; border-radius: var(--radio-sm);
+  padding: 11px 20px; min-height: 44px; border-radius: var(--radio-sm);
   font-weight: 500; font-size: 14px; letter-spacing: .01em; font-family: inherit;
   border: 1px solid transparent; cursor: pointer;
-  transition: background .18s ease, color .18s ease, border-color .18s ease;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .18s ease, color .18s ease, border-color .18s ease, filter .18s ease;
 }
 .btn-primario { background: var(--acento); color: #fff; }
 .btn-primario:hover { background: var(--acento-osc); }
@@ -74,6 +81,7 @@ h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em;
 .btn-fantasma { border-color: var(--linea-sutil); color: #fff; background: transparent; }
 .btn-fantasma:hover { background: rgba(255,255,255,.1); }
 .btn-bloque { width: 100%; }
+.btn:active { filter: brightness(.95); }
 
 /* ---------------- Header ---------------- */
 .header {
@@ -95,7 +103,7 @@ h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em;
 .nav a:hover { color: var(--tinta); }
 .nav a.activo { color: var(--acento); }
 .header-cta { display: flex; align-items: center; gap: 10px; }
-.menu-toggle { display: none; background: none; border: 0; font-size: 22px; cursor: pointer; color: var(--tinta); line-height: 1; }
+.menu-toggle { display: none; background: none; border: 0; font-size: 22px; cursor: pointer; color: var(--tinta); line-height: 1; width: 44px; height: 44px; place-items: center; border-radius: var(--radio-sm); }
 
 /* ---------------- Hero ---------------- */
 .hero {
@@ -248,15 +256,17 @@ h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em;
   width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
   border: 1px solid rgba(255,255,255,.55); background: rgba(15,23,42,.45); color: #fff;
   display: grid; place-items: center; transition: background .2s ease;
+  touch-action: manipulation;
 }
 .carousel-nav:hover { background: rgba(15,23,42,.78); }
 .carousel-nav svg { pointer-events: none; }
 .carousel-nav.prev { left: 14px; }
 .carousel-nav.next { right: 14px; }
-.carousel-thumbs { display: flex; gap: 8px; padding: 12px; overflow-x: auto; }
+.carousel-thumbs { display: flex; gap: 8px; padding: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; scrollbar-width: thin; }
 .carousel-thumb {
   width: 84px; height: 58px; flex: none; object-fit: cover; border-radius: 6px;
-  border: 1px solid var(--linea); cursor: pointer; opacity: .55;
+  border: 1px solid var(--linea); cursor: pointer; opacity: .55; scroll-snap-align: start;
+  touch-action: manipulation;
   transition: opacity .2s ease, border-color .2s ease;
 }
 .carousel-thumb.activo { opacity: 1; border-color: var(--acento); }
@@ -363,7 +373,7 @@ h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em;
 
 /* ---------------- WhatsApp flotante ---------------- */
 .whatsapp-flotante {
-  position: fixed; right: 24px; bottom: 24px; z-index: 90;
+  position: fixed; right: calc(24px + env(safe-area-inset-right)); bottom: calc(24px + env(safe-area-inset-bottom)); z-index: 90;
   width: 52px; height: 52px; border-radius: 50%;
   background: #25d366; color: #fff; display: grid; place-items: center;
   box-shadow: 0 10px 26px rgba(17,24,39,.22);
@@ -380,16 +390,20 @@ h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em;
 }
 @media (max-width: 780px) {
   .topbar-datos span:not(:first-child) { display: none; }
-  .menu-toggle { display: block; }
+  .menu-toggle { display: grid; width: 48px; height: 48px; place-items: center; }
   .nav {
     position: absolute; top: 66px; left: 0; right: 0; background: #fff;
     flex-direction: column; align-items: stretch; gap: 0; padding: 10px 20px 22px;
     border-bottom: 1px solid var(--linea); display: none;
+    max-height: calc(100vh - 66px); overflow-y: auto;
+    box-shadow: 0 18px 30px rgba(17,24,39,.08);
   }
   .nav.abierto { display: flex; }
-  .nav a { padding: 12px 8px; border-bottom: 1px solid var(--linea); border-radius: 0; }
+  .nav a { display: flex; align-items: center; min-height: 48px; padding: 12px 8px; border-bottom: 1px solid var(--linea); border-radius: 0; }
   .nav a:last-child { border-bottom: 0; }
   .header-cta { gap: 0; }
+  .btn { min-height: 48px; }
+  .detalle-grid, .contacto-grid { gap: 32px; }
   .seccion { padding: 62px 0; }
   .hero { min-height: 500px; }
   .hero-content { padding: 60px 0; }
@@ -431,8 +445,12 @@ h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em;
   .mapa { height: 320px; }
   .footer { padding: 52px 0 24px; }
   .footer-copy { flex-direction: column; gap: 6px; }
-  .whatsapp-flotante { right: 16px; bottom: 16px; width: 48px; height: 48px; }
+  .whatsapp-flotante { right: calc(16px + env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); width: 48px; height: 48px; }
   .dato .icono { width: 38px; height: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
 
 /* ---------------- Impresión (PDF) ---------------- */
