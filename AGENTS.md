@@ -76,6 +76,9 @@ demo_bodega_imprimir.pdf  Referencia del documento imprimible
 
 ## Pendientes / mejoras
 
-- Ajustar el layout exacto del PDF si se confirma el formato de `demo_bodega_imprimir.pdf`
-  (es imagen/vector, sin texto extraíble).
+- El PDF de detalle cabe en **una hoja A4** (`.print-doc`): hero 46mm, miniaturas
+  21mm, tipografía compacta y `.print-doc` en flex con `min-height` para anclar el
+  pie. Verificado con Chrome headless (`--print-to-pdf` → 1 página).
+- Si se confirma el formato de `demo_bodega_imprimir.pdf` (es imagen/vector, sin
+  texto extraíble), ajustar el layout exacto.
 - Optimizar imágenes a WebP/AVIF si se requiere rendimiento.
