@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuestras Bodegas | Bodegas de Yucatán</title>
+  <meta name="description" content="Catálogo completo de bodegas industriales disponibles para renta en Mérida, Yucatán.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="contenedor header-inner">
+      <a class="logo" href="index.html">
+        <span class="logo-mark">🏭</span>
+        <span>Bodegas de Yucatán<small>ESPACIOS INDUSTRIALES</small></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a class="activo" href="bodegas.html">Nuestras Bodegas</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="header-cta">
+        <a class="btn btn-primario btn-tel" href="tel:+529991234567">📞 999 123 4567</a>
+        <button class="menu-toggle" aria-label="Menú">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="seccion-gris" style="padding:54px 0">
+    <div class="contenedor">
+      <span class="kicker" style="color:var(--verde);font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:13px">Catálogo</span>
+      <h1 style="font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.8px;margin-top:6px">Nuestras Bodegas</h1>
+      <p style="color:var(--gris-500);font-size:17px;max-width:620px;margin-top:8px">
+        Explora todos los espacios industriales disponibles. Filtra por complejo y solicita una visita.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:24px">
+        <label style="display:flex;align-items:center;gap:10px;font-weight:600;color:var(--gris-700)">
+          Complejo:
+          <select id="filtroComplejo" style="padding:10px 14px;border:1px solid var(--gris-200);border-radius:10px;font-size:15px;background:#fff">
+            <option value="todos">Todos</option>
+          </select>
+        </label>
+      </div>
+      <div class="grid-propiedades" id="catalogo"></div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <div class="banda">
+        <div>
+          <h2>¿No encuentras el tamaño que buscas?</h2>
+          <p>Construimos tu bodega a la medida y te la entregamos en 90 días.</p>
+        </div>
+        <a class="btn btn-blanco" href="servicios.html">Ver servicios</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer-grid">
+        <div>
+          <div class="logo" style="margin-bottom:14px">
+            <span class="logo-mark">🏭</span>
+            <span>Bodegas de Yucatán<small>ESPACIOS INDUSTRIALES</small></span>
+          </div>
+          <p style="font-size:15px">Renta y construcción de bodegas industriales en Mérida, Yucatán.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <a href="index.html">Inicio</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="bodegas.html">Nuestras Bodegas</a>
+          <a href="servicios.html">Servicios</a>
+          <a href="contacto.html">Contacto</a>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <a href="tel:+529991234567">📞 999 123 4567</a>
+          <a href="mailto:ventas@bodegasdeyucatan.mx">✉️ ventas@bodegasdeyucatan.mx</a>
+          <a href="contacto.html">📍 Mérida, Yucatán</a>
+        </div>
+      </div>
+      <div class="footer-copy">
+        <span>© 2026 Bodegas de Yucatán. Todos los derechos reservados.</span>
+        <span>Hecho con HTML, CSS y JavaScript.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
