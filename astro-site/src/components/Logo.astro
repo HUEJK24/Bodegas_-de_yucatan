@@ -1,0 +1,32 @@
+---
+import { Warehouse } from "@lucide/astro";
+
+interface Props {
+  invertido?: boolean;
+}
+const { invertido = false } = Astro.props;
+---
+
+<a href="/" class="flex items-center gap-3" aria-label="Bodegas de Yucatán, inicio">
+  <span
+    class:list={[
+      "flex size-10 items-center justify-center rounded-md",
+      invertido ? "bg-white/10 text-white" : "bg-primary text-white",
+    ]}
+  >
+    <Warehouse class="size-5" aria-hidden="true" />
+  </span>
+  <span class="flex flex-col leading-tight">
+    <span class:list={["font-display text-lg font-bold", invertido ? "text-white" : "text-ink"]}>
+      Bodegas de Yucatán
+    </span>
+    <span
+      class:list={[
+        "text-[11px] font-semibold tracking-[0.18em]",
+        invertido ? "text-white/60" : "text-muted",
+      ]}
+    >
+      ESPACIOS INDUSTRIALES
+    </span>
+  </span>
+</a>

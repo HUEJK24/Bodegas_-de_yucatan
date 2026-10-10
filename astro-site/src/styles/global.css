@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: #f6f3ee;
+  --color-surface: #ffffff;
+  --color-ink: #1b1f1d;
+  --color-muted: #5d655f;
+  --color-line: #e3ddd3;
+  --color-primary: #1f4d3a;
+  --color-primary-dark: #163a2b;
+  --color-primary-soft: #e4ede7;
+  --color-accent: #d9822b;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-ink font-sans antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-balance;
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-5 md:px-8;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+}

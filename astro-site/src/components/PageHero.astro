@@ -1,0 +1,18 @@
+---
+interface Props {
+  kicker: string;
+  titulo: string;
+  descripcion?: string;
+  imagen?: string;
+}
+const { kicker, titulo, descripcion, imagen = "/images/hero.png" } = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden bg-primary-dark">
+  <img src={imagen} alt="" class="absolute inset-0 -z-10 size-full object-cover opacity-30" />
+  <div class="container-page flex flex-col gap-4 py-16 md:py-20">
+    <span class="text-sm font-semibold tracking-wide text-accent uppercase">{kicker}</span>
+    <h1 class="max-w-3xl text-4xl font-extrabold text-white md:text-5xl">{titulo}</h1>
+    {descripcion && <p class="max-w-2xl text-pretty text-white/80 md:text-lg">{descripcion}</p>}
+  </div>
+</section>

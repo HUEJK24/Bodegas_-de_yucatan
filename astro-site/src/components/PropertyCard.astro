@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { ArrowRight, MapPin, MoveVertical, Ruler, Truck } from "@lucide/astro";
+import EstadoBadge from "./EstadoBadge.astro";
+import { formatoPrecio } from "../site";
+
+interface Props {
+  bodega: CollectionEntry<"bodegas">;
+}
+
+const { bodega } = Astro.props;
+const b = bodega.data;
+---
+
+<article
+  class="group flex flex-col overflow-hidden rounded-lg border border-line bg-surface transition-shadow hover:shadow-xl hover:shadow-black/5"
+  data-complejo={b.complejo}
+>
+  <div class="relative aspect-[4/3] overflow-hidden bg-line">
+    <img
+      src={b.fotos[0]}
+      alt={`Vista de ${b.titulo}`}
+      loading="lazy"
+      class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+    <EstadoBadge estado={b.estado} class="absolute top-3 left-3" />
+  </div>
+  <div class="flex flex-1 flex-col gap-4 p-5">
+    <div>
+      <p class="text-xs font-semibold tracking-wide text-accent uppercase">{b.complejo}</p>
+      <h3 class="mt-1 text-xl font-bold">{b.titulo}</h3>
+      <p class="mt-1 flex items-center gap-1.5 text-sm text-muted">
+        <MapPin class="size-4" aria-hidden="true" />{b.ubicacion}
+      </p>
+    </div>
+    <dl class="grid grid-cols-3 gap-2 border-y border-line py-3 text-sm">
+      <div class="flex flex-col gap-0.5">
+        <dt class="flex items-center gap-1 text-xs text-muted"><Ruler class="size-3.5" aria-hidden="true" />Área</dt>
+        <dd class="font-semibold">{b.area.toLocaleString("es-MX")} m²</dd>
+      </div>
+      <div class="flex flex-col gap-0.5">
+        <dt class="flex items-center gap-1 text-xs text-muted"><MoveVertical class="size-3.5" aria-hidden="true" />Altura</dt>
+        <dd class="font-semibold">{b.altura}</dd>
+      </div>
+      <div class="flex flex-col gap-0.5">
+        <dt class="flex items-center gap-1 text-xs text-muted"><Truck class="size-3.5" aria-hidden="true" />Andenes</dt>
+        <dd class="font-semibold">{b.andenes}</dd>
+      </div>
+    </dl>
+    <div class="mt-auto flex items-end justify-between gap-3">
+      <p class="flex flex-col">
+        {
+          b.precio ? (
+            <>
+              <span class="font-display text-2xl font-bold text-primary">{formatoPrecio(b.precio)}</span>
+              <span class="text-xs text-muted">MXN por mes</span>
+            </>
+          ) : (
+            <>
+              <span class="font-display text-lg font-bold text-primary">Cotización</span>
+              <span class="text-xs text-muted">personalizada</span>
+            </>
+          )
+        }
+      </p>
+      <a
+        href={`/bodegas/${bodega.id}`}
+        class="btn border border-primary text-primary hover:bg-primary hover:text-white"
+      >
+        Ver detalles<ArrowRight class="size-4" aria-hidden="true" />
+        <span class="sr-only">de {b.titulo}</span>
+      </a>
+    </div>
+  </div>
+</article>

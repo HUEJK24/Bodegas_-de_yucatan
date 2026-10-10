@@ -1,0 +1,48 @@
+---
+interface Props {
+  fotos: string[];
+  titulo: string;
+}
+const { fotos, titulo } = Astro.props;
+---
+
+<div class="flex flex-col gap-3" data-galeria>
+  <div class="aspect-[16/10] overflow-hidden rounded-lg bg-line">
+    <img data-principal src={fotos[0]} alt={`${titulo}, foto 1 de ${fotos.length}`} class="size-full object-cover" />
+  </div>
+  {
+    fotos.length > 1 && (
+      <ul class="grid grid-cols-4 gap-3" aria-label="Fotos de la bodega">
+        {fotos.map((f, i) => (
+          <li>
+            <button
+              type="button"
+              data-foto={f}
+              data-alt={`${titulo}, foto ${i + 1} de ${fotos.length}`}
+              aria-pressed={i === 0 ? "true" : "false"}
+              class="block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-md border-2 border-transparent opacity-70 transition hover:opacity-100 aria-pressed:border-primary aria-pressed:opacity-100"
+            >
+              <img src={f} alt="" loading="lazy" class="size-full object-cover" />
+              <span class="sr-only">Ver foto {i + 1}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<script>
+  document.querySelectorAll("[data-galeria]").forEach((g) => {
+    const principal = g.querySelector<HTMLImageElement>("[data-principal]");
+    const botones = g.querySelectorAll<HTMLButtonElement>("[data-foto]");
+    botones.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        if (!principal) return;
+        principal.src = btn.dataset.foto!;
+        principal.alt = btn.dataset.alt!;
+        botones.forEach((o) => o.setAttribute("aria-pressed", String(o === btn)));
+      }),
+    );
+  });
+</script>

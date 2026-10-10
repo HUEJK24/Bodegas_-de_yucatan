@@ -1,0 +1,16 @@
+---
+interface Props {
+  estado: "Disponible" | "Rentada" | "Construcción";
+  class?: string;
+}
+const { estado, class: clase } = Astro.props;
+const estilos = {
+  Disponible: "bg-primary text-white",
+  Rentada: "bg-ink/80 text-white",
+  Construcción: "bg-accent text-white",
+};
+---
+
+<span class:list={["rounded-full px-3 py-1 text-xs font-semibold", estilos[estado], clase]}>
+  {estado}
+</span>

@@ -1,0 +1,72 @@
+---
+import { HardHat, ShieldCheck, Handshake } from "@lucide/astro";
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const cifras = [
+  ["15+", "años de experiencia"],
+  ["3", "complejos industriales"],
+  ["60+", "empresas atendidas"],
+  ["90", "días para construir"],
+];
+
+const valores = [
+  { icono: Handshake, titulo: "Cercanía", texto: "Trato directo con los dueños, sin intermediarios ni sorpresas." },
+  { icono: ShieldCheck, titulo: "Confianza", texto: "Contratos claros y espacios con seguridad permanente." },
+  { icono: HardHat, titulo: "Calidad", texto: "Naves construidas con estándares industriales y materiales de primera." },
+];
+---
+
+<Layout title="Nosotros | Bodegas de Yucatán" description="Conoce a Bodegas de Yucatán, desarrolladores de espacios industriales en Mérida.">
+  <PageHero
+    kicker="Nosotros"
+    titulo="Desarrollamos los espacios donde crece la industria del sureste"
+    imagen="/images/kancun.png"
+  />
+
+  <section class="py-16 md:py-24">
+    <div class="container-page grid items-center gap-10 md:grid-cols-2">
+      <div class="flex flex-col gap-5">
+        <h2 class="text-3xl font-bold md:text-4xl">Una empresa yucateca al servicio de tu operación</h2>
+        <p class="leading-relaxed text-muted">
+          Bodegas de Yucatán nace con el objetivo de ofrecer espacios industriales modernos, seguros y bien
+          ubicados para empresas locales, nacionales e internacionales que operan en la península.
+        </p>
+        <p class="leading-relaxed text-muted">
+          Hoy administramos complejos en las zonas de mayor crecimiento de Mérida y construimos bodegas a
+          la medida para clientes que necesitan algo específico.
+        </p>
+      </div>
+      <img src="/images/interior.png" alt="Interior de una bodega industrial" loading="lazy" class="aspect-[4/3] w-full rounded-lg object-cover" />
+    </div>
+  </section>
+
+  <section class="bg-primary py-14">
+    <dl class="container-page grid grid-cols-2 gap-8 md:grid-cols-4">
+      {cifras.map(([n, l]) => (
+        <div class="flex flex-col gap-1">
+          <dd class="font-display text-4xl font-extrabold text-white md:text-5xl">{n}</dd>
+          <dt class="order-last text-sm text-white/70">{l}</dt>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="container-page">
+      <h2 class="mb-10 text-3xl font-bold md:text-4xl">Nuestros valores</h2>
+      <ul class="grid gap-5 md:grid-cols-3">
+        {valores.map(({ icono: Icono, titulo, texto }) => (
+          <li class="flex flex-col gap-4 rounded-lg border border-line bg-surface p-6">
+            <span class="flex size-12 items-center justify-center rounded-md bg-primary-soft text-primary"><Icono class="size-6" aria-hidden="true" /></span>
+            <h3 class="text-lg font-bold">{titulo}</h3>
+            <p class="text-sm leading-relaxed text-muted">{texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

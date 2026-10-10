@@ -1,0 +1,15 @@
+---
+interface Props {
+  kicker: string;
+  titulo: string;
+  descripcion?: string;
+  centrado?: boolean;
+}
+const { kicker, titulo, descripcion, centrado = false } = Astro.props;
+---
+
+<div class:list={["mb-10 flex max-w-2xl flex-col gap-3", centrado && "mx-auto items-center text-center"]}>
+  <span class="text-sm font-semibold tracking-wide text-accent uppercase">{kicker}</span>
+  <h2 class="text-3xl font-bold md:text-4xl">{titulo}</h2>
+  {descripcion && <p class="text-pretty text-muted md:text-lg">{descripcion}</p>}
+</div>

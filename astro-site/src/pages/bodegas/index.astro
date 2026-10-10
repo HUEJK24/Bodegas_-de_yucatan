@@ -1,0 +1,78 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import PropertyCard from "../../components/PropertyCard.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import { getBodegas } from "../../lib/bodegas";
+
+const bodegas = await getBodegas();
+const complejos = [...new Set(bodegas.map((b) => b.data.complejo))];
+---
+
+<Layout
+  title="Nuestras Bodegas | Bodegas de Yucatán"
+  description="Catálogo de bodegas industriales en renta en Mérida, Yucatán: áreas, precios y especificaciones."
+>
+  <PageHero
+    kicker="Catálogo"
+    titulo="Nuestras bodegas"
+    descripcion="Explora todas las naves disponibles en nuestros complejos industriales de Mérida."
+  />
+
+  <section class="py-12 md:py-16">
+    <div class="container-page flex flex-col gap-8">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div role="group" aria-label="Filtrar por complejo" class="flex flex-wrap gap-2">
+          <button type="button" data-filtro="" aria-pressed="true" class="filtro">Todas</button>
+          {complejos.map((c) => <button type="button" data-filtro={c} aria-pressed="false" class="filtro">{c}</button>)}
+        </div>
+        <p class="text-sm text-muted" aria-live="polite"><span id="conteo">{bodegas.length}</span> bodegas</p>
+      </div>
+      <div id="grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {bodegas.map((b) => <PropertyCard bodega={b} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>
+
+<style>
+  @reference "../../styles/global.css";
+  .filtro {
+    @apply cursor-pointer rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium text-muted transition-colors hover:border-primary hover:text-primary;
+  }
+  .filtro[aria-pressed="true"] {
+    @apply border-primary bg-primary text-white;
+  }
+</style>
+
+<script>
+  const botones = document.querySelectorAll<HTMLButtonElement>("[data-filtro]");
+  const tarjetas = document.querySelectorAll<HTMLElement>("#grid [data-complejo]");
+  const conteo = document.getElementById("conteo");
+
+  function aplicar(filtro: string) {
+    let visibles = 0;
+    tarjetas.forEach((t) => {
+      const mostrar = !filtro || t.dataset.complejo === filtro;
+      t.hidden = !mostrar;
+      if (mostrar) visibles++;
+    });
+    botones.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filtro === filtro)));
+    if (conteo) conteo.textContent = String(visibles);
+  }
+
+  botones.forEach((b) =>
+    b.addEventListener("click", () => {
+      const filtro = b.dataset.filtro ?? "";
+      aplicar(filtro);
+      const url = new URL(location.href);
+      filtro ? url.searchParams.set("complejo", filtro) : url.searchParams.delete("complejo");
+      history.replaceState(null, "", url);
+    }),
+  );
+
+  const inicial = new URLSearchParams(location.search).get("complejo");
+  if (inicial) aplicar(inicial);
+</script>

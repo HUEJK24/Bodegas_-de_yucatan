@@ -1,0 +1,79 @@
+---
+import { Menu, Phone, X } from "@lucide/astro";
+import Logo from "./Logo.astro";
+import { NAV, SITIO, telHref } from "../site";
+
+const actual = Astro.url.pathname.replace(/\/$/, "") || "/";
+const esActivo = (href: string) =>
+  href === "/" ? actual === "/" : actual === href || actual.startsWith(href + "/");
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur">
+  <div class="container-page flex h-18 items-center justify-between gap-6">
+    <Logo />
+
+    <nav aria-label="Principal" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={esActivo(item.href) ? "page" : undefined}
+                class="rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-primary aria-[current=page]:text-primary aria-[current=page]:bg-primary-soft"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={telHref()} class="btn bg-primary text-white hover:bg-primary-dark max-sm:px-3">
+        <Phone class="size-4" aria-hidden="true" />
+        <span class="max-sm:sr-only">{SITIO.telefonoCorto}</span>
+      </a>
+      <button
+        type="button"
+        id="menu-toggle"
+        aria-expanded="false"
+        aria-controls="menu-movil"
+        class="inline-flex size-11 items-center justify-center rounded-md border border-line text-ink lg:hidden"
+      >
+        <span class="sr-only">Abrir menú</span>
+        <Menu class="size-5 [[aria-expanded=true]>&]:hidden" aria-hidden="true" />
+        <X class="hidden size-5 [[aria-expanded=true]>&]:block" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+
+  <nav id="menu-movil" aria-label="Móvil" class="hidden border-t border-line bg-surface lg:hidden">
+    <ul class="container-page flex flex-col py-3">
+      {
+        NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={esActivo(item.href) ? "page" : undefined}
+              class="block rounded-md px-3 py-3 font-medium text-ink aria-[current=page]:text-primary aria-[current=page]:bg-primary-soft"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("menu-movil");
+  toggle?.addEventListener("click", () => {
+    const abierto = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!abierto));
+    menu?.classList.toggle("hidden", abierto);
+  });
+</script>

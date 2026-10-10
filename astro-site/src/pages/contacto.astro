@@ -1,0 +1,66 @@
+---
+import { Clock, Mail, MapPin, Phone } from "@lucide/astro";
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import { SITIO, telHref } from "../site";
+
+const datos = [
+  { icono: Phone, titulo: "Teléfono", valor: SITIO.telefono, href: telHref() },
+  { icono: Mail, titulo: "Correo", valor: SITIO.correo, href: `mailto:${SITIO.correo}` },
+  { icono: MapPin, titulo: "Oficinas", valor: SITIO.direccion },
+  { icono: Clock, titulo: "Horario", valor: SITIO.horario },
+];
+---
+
+<Layout title="Contacto | Bodegas de Yucatán" description="Contacta a Bodegas de Yucatán: teléfono, correo, WhatsApp y ubicación de nuestras oficinas en Mérida.">
+  <PageHero kicker="Contacto" titulo="Hablemos de tu próximo espacio" descripcion="Respondemos el mismo día hábil." />
+
+  <section class="py-16 md:py-20">
+    <div class="container-page grid gap-10 lg:grid-cols-[1fr_1.2fr]">
+      <div class="flex flex-col gap-6">
+        <ul class="grid gap-4 sm:grid-cols-2">
+          {datos.map(({ icono: Icono, titulo, valor, href }) => (
+            <li class="flex flex-col gap-3 rounded-lg border border-line bg-surface p-5">
+              <span class="flex size-10 items-center justify-center rounded-md bg-primary-soft text-primary"><Icono class="size-5" aria-hidden="true" /></span>
+              <h2 class="text-sm font-semibold text-muted">{titulo}</h2>
+              {href ? <a href={href} class="font-semibold break-words hover:text-primary">{valor}</a> : <p class="font-semibold">{valor}</p>}
+            </li>
+          ))}
+        </ul>
+
+        <form id="form-contacto" class="flex flex-col gap-4 rounded-lg border border-line bg-surface p-6">
+          <h2 class="text-xl font-bold">Envíanos un mensaje</h2>
+          <label class="flex flex-col gap-1.5 text-sm font-medium">Nombre
+            <input name="nombre" required autocomplete="name" class="rounded-md border border-line bg-background px-3 py-2.5 font-normal outline-none focus:border-primary" />
+          </label>
+          <label class="flex flex-col gap-1.5 text-sm font-medium">Empresa
+            <input name="empresa" autocomplete="organization" class="rounded-md border border-line bg-background px-3 py-2.5 font-normal outline-none focus:border-primary" />
+          </label>
+          <label class="flex flex-col gap-1.5 text-sm font-medium">¿Qué necesitas?
+            <textarea name="mensaje" required rows="4" class="rounded-md border border-line bg-background px-3 py-2.5 font-normal outline-none focus:border-primary"></textarea>
+          </label>
+          <button type="submit" class="btn bg-[#1e9e4f] text-white hover:bg-[#178541]">Enviar por WhatsApp</button>
+        </form>
+      </div>
+
+      <div class="min-h-96 overflow-hidden rounded-lg border border-line">
+        <iframe
+          title="Mapa de ubicación de Bodegas de Yucatán"
+          src={SITIO.mapa}
+          class="size-full min-h-96"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script define:vars={{ numero: SITIO.whatsapp }}>
+  document.getElementById("form-contacto")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const d = new FormData(e.currentTarget);
+    const texto = `Hola, soy ${d.get("nombre")}${d.get("empresa") ? ` de ${d.get("empresa")}` : ""}. ${d.get("mensaje")}`;
+    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`, "_blank", "noopener");
+  });
+</script>

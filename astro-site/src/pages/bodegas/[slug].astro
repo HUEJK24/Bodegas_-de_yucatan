@@ -1,0 +1,124 @@
+---
+import { render } from "astro:content";
+import { ArrowLeft, Check, MapPin, Phone } from "@lucide/astro";
+import Layout from "../../layouts/Layout.astro";
+import Gallery from "../../components/Gallery.astro";
+import EstadoBadge from "../../components/EstadoBadge.astro";
+import PropertyCard from "../../components/PropertyCard.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import { getBodegas } from "../../lib/bodegas";
+import { SITIO, formatoPrecio, telHref } from "../../site";
+
+export async function getStaticPaths() {
+  const bodegas = await getBodegas();
+  return bodegas.map((bodega) => ({ params: { slug: bodega.id }, props: { bodega, bodegas } }));
+}
+
+const { bodega, bodegas } = Astro.props;
+const b = bodega.data;
+const { Content } = await render(bodega);
+const mensaje = `Hola, estoy interesado en rentar la ${b.titulo} de ${b.area} m².`;
+
+const specs = [
+  ["Superficie", `${b.area.toLocaleString("es-MX")} m²`],
+  ["Fondo", b.fondo],
+  ["Altura libre", b.altura],
+  ["Andenes de carga", String(b.andenes)],
+  ["Oficinas", b.oficinas],
+  ["Seguridad", b.seguridad],
+  ["Complejo", b.complejo],
+  ["Ubicación", b.ubicacion],
+];
+
+const relacionadas = bodegas
+  .filter((o) => o.id !== bodega.id && o.data.complejo === b.complejo)
+  .concat(bodegas.filter((o) => o.id !== bodega.id && o.data.complejo !== b.complejo))
+  .slice(0, 3);
+---
+
+<Layout title={`${b.titulo} | Bodegas de Yucatán`} description={`${b.titulo}: ${b.area} m² en ${b.ubicacion}. ${b.andenes} andenes, altura ${b.altura}.`} whatsappMensaje={mensaje}>
+  <div class="container-page py-8 md:py-12">
+    <a href="/bodegas" class="mb-6 inline-flex items-center gap-1 text-sm font-medium text-muted hover:text-primary">
+      <ArrowLeft class="size-4" aria-hidden="true" />Volver al catálogo
+    </a>
+
+    <div class="mb-8 flex flex-col gap-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <EstadoBadge estado={b.estado} />
+        <span class="text-sm font-semibold tracking-wide text-accent uppercase">{b.complejo}</span>
+      </div>
+      <h1 class="text-3xl font-extrabold md:text-5xl">{b.titulo}</h1>
+      <p class="flex items-center gap-1.5 text-muted"><MapPin class="size-4" aria-hidden="true" />{b.ubicacion}</p>
+    </div>
+
+    <div class="grid gap-10 lg:grid-cols-[1fr_360px]">
+      <div class="flex min-w-0 flex-col gap-10">
+        <Gallery fotos={b.fotos} titulo={b.titulo} />
+
+        <section aria-labelledby="desc">
+          <h2 id="desc" class="mb-3 text-2xl font-bold">Descripción</h2>
+          <div class="leading-relaxed text-muted [&_p]:mb-3"><Content /></div>
+        </section>
+
+        <section aria-labelledby="specs">
+          <h2 id="specs" class="mb-4 text-2xl font-bold">Especificaciones técnicas</h2>
+          <div class="overflow-hidden rounded-lg border border-line bg-surface">
+            <table class="w-full text-sm">
+              <tbody>
+                {
+                  specs.map(([k, v]) => (
+                    <tr class="border-b border-line last:border-0 even:bg-background/60">
+                      <th scope="row" class="w-1/2 px-5 py-3.5 text-left font-medium text-muted">{k}</th>
+                      <td class="px-5 py-3.5 font-semibold">{v}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="flex flex-col gap-5 rounded-lg border border-line bg-surface p-6 shadow-xl shadow-black/5">
+          <div>
+            <p class="text-sm text-muted">Renta mensual</p>
+            {
+              b.precio ? (
+                <p class="font-display text-4xl font-extrabold text-primary">
+                  {formatoPrecio(b.precio)}
+                  <span class="text-base font-medium text-muted"> MXN</span>
+                </p>
+              ) : (
+                <p class="font-display text-3xl font-extrabold text-primary">Cotización personalizada</p>
+              )
+            }
+            {b.precio && <p class="mt-1 text-xs text-muted">≈ {formatoPrecio(b.precio / b.area)} por m²</p>}
+          </div>
+          <ul class="flex flex-col gap-2 text-sm">
+            {["Visita sin compromiso", "Respuesta el mismo día", "Contratos flexibles"].map((t) => (
+              <li class="flex items-center gap-2"><Check class="size-4 text-primary" aria-hidden="true" />{t}</li>
+            ))}
+          </ul>
+          <WhatsAppButton mensaje={mensaje} etiqueta="Quiero esta bodega" class="w-full py-4 text-base" />
+          <a href={telHref()} class="btn w-full border border-line text-ink hover:border-primary hover:text-primary">
+            <Phone class="size-4" aria-hidden="true" />Llamar {SITIO.telefonoCorto}
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  {
+    relacionadas.length > 0 && (
+      <section class="border-t border-line bg-surface py-14">
+        <div class="container-page">
+          <h2 class="mb-8 text-2xl font-bold md:text-3xl">Otras bodegas que te pueden interesar</h2>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {relacionadas.map((r) => <PropertyCard bodega={r} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Layout>

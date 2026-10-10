@@ -1,0 +1,78 @@
+---
+import { ArrowRight, Check } from "@lucide/astro";
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const arrendamiento = [
+  "Contratos flexibles desde 12 meses",
+  "Bodegas desde 500 hasta más de 2,000 m²",
+  "Mantenimiento de áreas comunes incluido",
+  "Vigilancia 24/7 en todos los complejos",
+];
+
+const pasos = [
+  ["Diagnóstico", "Entendemos tu operación, volumen y necesidades de maniobra."],
+  ["Proyecto", "Diseño arquitectónico y estructural a la medida, con presupuesto cerrado."],
+  ["Permisos", "Gestionamos licencias y trámites ante las autoridades."],
+  ["Construcción", "Obra supervisada con entrega llave en mano en 90 días."],
+];
+---
+
+<Layout title="Servicios | Bodegas de Yucatán" description="Arrendamiento de bodegas industriales y construcción a la medida en 90 días en Mérida, Yucatán.">
+  <PageHero
+    kicker="Servicios"
+    titulo="Arrendamiento y construcción a la medida"
+    descripcion="Dos formas de conseguir el espacio que tu empresa necesita en Yucatán."
+    imagen="/images/interior.png"
+  />
+
+  <section id="arrendamiento" class="scroll-mt-24 py-16 md:py-24">
+    <div class="container-page grid items-center gap-10 md:grid-cols-2">
+      <img src="/images/poniente.png" alt="Complejo de bodegas en renta" loading="lazy" class="aspect-[4/3] w-full rounded-lg object-cover" />
+      <div class="flex flex-col gap-5">
+        <span class="text-sm font-semibold tracking-wide text-accent uppercase">01 · Arrendamiento</span>
+        <h2 class="text-3xl font-bold md:text-4xl">Bodegas listas para operar</h2>
+        <p class="text-muted md:text-lg">
+          Naves industriales terminadas en los corredores más estratégicos de Mérida. Muévete en días,
+          no en meses.
+        </p>
+        <ul class="flex flex-col gap-3">
+          {arrendamiento.map((t) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary text-white"><Check class="size-3" aria-hidden="true" /></span>{t}
+            </li>
+          ))}
+        </ul>
+        <a href="/bodegas" class="btn w-fit bg-primary text-white hover:bg-primary-dark">Ver bodegas disponibles<ArrowRight class="size-4" aria-hidden="true" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="construccion" class="scroll-mt-24 bg-surface py-16 md:py-24">
+    <div class="container-page flex flex-col gap-12">
+      <div class="grid items-center gap-10 md:grid-cols-2">
+        <div class="flex flex-col gap-5 md:order-1">
+          <span class="text-sm font-semibold tracking-wide text-accent uppercase">02 · Construcción a la medida</span>
+          <h2 class="text-3xl font-bold md:text-4xl">Tu bodega, a tu medida, en 90 días</h2>
+          <p class="text-muted md:text-lg">
+            Construimos naves industriales con las especificaciones exactas que tu operación requiere:
+            altura, andenes, oficinas y patio de maniobras.
+          </p>
+        </div>
+        <img src="/images/construccion.png" alt="Construcción de bodega industrial" loading="lazy" class="aspect-[4/3] w-full rounded-lg object-cover md:order-2" />
+      </div>
+      <ol class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {pasos.map(([t, d], i) => (
+          <li class="flex flex-col gap-3 rounded-lg border border-line bg-background p-6">
+            <span class="font-display text-4xl font-extrabold text-primary/25">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="text-lg font-bold">{t}</h3>
+            <p class="text-sm leading-relaxed text-muted">{d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

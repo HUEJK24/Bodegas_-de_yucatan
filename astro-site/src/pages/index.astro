@@ -1,0 +1,171 @@
+---
+import { ArrowRight, Clock, HardHat, MapPin, ShieldCheck, Truck } from "@lucide/astro";
+import Layout from "../layouts/Layout.astro";
+import PropertyCard from "../components/PropertyCard.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import CtaBand from "../components/CtaBand.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import { getBodegas, getDestacadas } from "../lib/bodegas";
+import { COMPLEJOS } from "../site";
+
+const todas = await getBodegas();
+const destacadas = await getDestacadas(3);
+const disponibles = todas.filter((b) => b.data.estado === "Disponible");
+const m2Totales = todas.reduce((s, b) => s + b.data.area, 0);
+
+const beneficios = [
+  { icono: MapPin, titulo: "Ubicación estratégica", texto: "Complejos sobre periférico y carreteras principales de Mérida." },
+  { icono: HardHat, titulo: "Construcción en 90 días", texto: "Diseñamos y construimos la bodega a la medida de tu operación." },
+  { icono: ShieldCheck, titulo: "Seguridad 24/7", texto: "Casetas de vigilancia, CCTV y acceso controlado en cada complejo." },
+  { icono: Truck, titulo: "Andenes y maniobras", texto: "Patios amplios para tráiler y andenes de carga a nivel." },
+];
+
+const clientes = ["LOGIMAYA", "Grupo Peninsular", "DISTRIBUIDORA SURESTE", "Agroindustrias YUC", "TransCarga", "FARMA+ Mérida"];
+
+const conteo = (complejo: string) => todas.filter((b) => b.data.complejo === complejo).length;
+---
+
+<Layout title="Bodegas de Yucatán | Renta de bodegas industriales en Mérida">
+  <section class="relative isolate overflow-hidden bg-primary-dark">
+    <img
+      src="/images/hero.png"
+      alt=""
+      fetchpriority="high"
+      class="absolute inset-0 -z-10 size-full object-cover"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark via-primary-dark/85 to-primary-dark/30"></div>
+    <div class="container-page flex flex-col gap-10 py-20 md:py-28">
+      <div class="flex max-w-2xl flex-col gap-6">
+        <span class="w-fit rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-white">
+          {disponibles.length} bodegas disponibles en Mérida
+        </span>
+        <h1 class="text-4xl leading-tight font-extrabold text-white md:text-6xl">
+          Encuentra la bodega ideal para tu negocio
+        </h1>
+        <p class="text-pretty text-white/80 md:text-lg">
+          Renta y construcción de naves industriales en las mejores ubicaciones de Yucatán. Espacios
+          seguros, listos para operar o construidos a tu medida.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="/bodegas" class="btn bg-accent text-white hover:bg-accent/90">
+            Ver bodegas disponibles<ArrowRight class="size-4" aria-hidden="true" />
+          </a>
+          <WhatsAppButton etiqueta="Cotizar por WhatsApp" />
+        </div>
+      </div>
+      <dl class="grid max-w-2xl grid-cols-3 gap-4 border-t border-white/15 pt-6">
+        <div><dt class="text-xs text-white/60">Complejos</dt><dd class="font-display text-2xl font-bold text-white md:text-3xl">{COMPLEJOS.length}+</dd></div>
+        <div><dt class="text-xs text-white/60">m² en portafolio</dt><dd class="font-display text-2xl font-bold text-white md:text-3xl">{m2Totales.toLocaleString("es-MX")}</dd></div>
+        <div><dt class="text-xs text-white/60">Entrega a la medida</dt><dd class="font-display text-2xl font-bold text-white md:text-3xl">90 días</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="container-page">
+      <SectionHeading
+        kicker="Por qué elegirnos"
+        titulo="Espacios industriales pensados para crecer"
+        descripcion="Más que una bodega: un socio inmobiliario que entiende la logística del sureste."
+      />
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          beneficios.map(({ icono: Icono, titulo, texto }) => (
+            <li class="flex flex-col gap-4 rounded-lg border border-line bg-surface p-6">
+              <span class="flex size-12 items-center justify-center rounded-md bg-primary-soft text-primary">
+                <Icono class="size-6" aria-hidden="true" />
+              </span>
+              <h3 class="text-lg font-bold">{titulo}</h3>
+              <p class="text-sm leading-relaxed text-muted">{texto}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-surface py-16 md:py-24">
+    <div class="container-page">
+      <SectionHeading kicker="Ubicaciones" titulo="Nuestros complejos industriales" />
+      <ul class="grid gap-5 md:grid-cols-3">
+        {
+          COMPLEJOS.map((c) => (
+            <li>
+              <a
+                href={`/bodegas?complejo=${encodeURIComponent(c.nombre)}`}
+                class="group relative isolate flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-lg p-6"
+              >
+                <img
+                  src={c.imagen}
+                  alt=""
+                  loading="lazy"
+                  class="absolute inset-0 -z-10 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                <span class="mb-2 w-fit rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+                  {conteo(c.nombre)} bodegas
+                </span>
+                <h3 class="text-2xl font-bold text-white">{c.nombre}</h3>
+                <p class="mt-1 text-sm text-white/80">{c.descripcion}</p>
+                <span class="mt-4 flex items-center gap-1 text-sm font-semibold text-white">
+                  Explorar<ArrowRight class="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="container-page">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <SectionHeading kicker="Destacadas" titulo="Bodegas disponibles hoy" />
+        <a href="/bodegas" class="mb-10 flex items-center gap-1 font-semibold text-primary hover:underline">
+          Ver catálogo completo<ArrowRight class="size-4" aria-hidden="true" />
+        </a>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {destacadas.map((b) => <PropertyCard bodega={b} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-surface py-14">
+    <div class="container-page flex flex-col gap-8">
+      <p class="text-center text-sm font-semibold tracking-wide text-muted uppercase">
+        Empresas que confían en nosotros
+      </p>
+      <ul class="grid grid-cols-2 items-center gap-6 sm:grid-cols-3 lg:grid-cols-6">
+        {
+          clientes.map((c) => (
+            <li class="flex h-14 items-center justify-center rounded-md border border-line px-3 text-center font-display text-sm font-bold text-muted grayscale">
+              {c}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="container-page grid items-center gap-10 md:grid-cols-2">
+      <img src="/images/construccion.png" alt="Bodega en construcción con estructura metálica" loading="lazy" class="aspect-[4/3] w-full rounded-lg object-cover" />
+      <div class="flex flex-col gap-5">
+        <span class="text-sm font-semibold tracking-wide text-accent uppercase">Construcción a la medida</span>
+        <h2 class="text-3xl font-bold md:text-4xl">¿No encuentras lo que buscas? La construimos para ti.</h2>
+        <p class="text-muted md:text-lg">
+          Diseñamos, tramitamos permisos y construimos tu bodega con las especificaciones exactas de tu
+          operación. Entrega llave en mano en 90 días.
+        </p>
+        <p class="flex items-center gap-2 text-sm font-medium"><Clock class="size-4 text-primary" aria-hidden="true" />Proyecto, permisos y obra en un solo contrato</p>
+        <a href="/servicios#construccion" class="btn w-fit bg-primary text-white hover:bg-primary-dark">
+          Conocer el proceso<ArrowRight class="size-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>
