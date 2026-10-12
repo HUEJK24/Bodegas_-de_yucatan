@@ -408,6 +408,12 @@ h1, h2, h3, h4 { color: var(--tinta); font-weight: 600; letter-spacing: -0.02em;
   .hero { min-height: 500px; }
   .hero-content { padding: 60px 0; }
   .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  /* Hero de inicio: contenido centrado y CTAs a ancho completo en móvil */
+  .hero:not(.hero-sm) .hero-content { text-align: center; }
+  .hero:not(.hero-sm) .hero p { margin-left: auto; margin-right: auto; }
+  .hero:not(.hero-sm) .hero-acciones { flex-direction: column; align-items: center; }
+  .hero:not(.hero-sm) .hero-acciones .btn { width: 100%; max-width: 340px; }
+  .hero:not(.hero-sm) .hero-stats { margin-left: auto; margin-right: auto; }
   .complejos { grid-template-columns: 1fr; }
   .complejo:first-child { grid-column: span 1; min-height: 260px; }
   .banda { padding: 34px 26px; }
