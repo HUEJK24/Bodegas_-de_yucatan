@@ -23,14 +23,14 @@ function construirTarjeta(b) {
       <div class="tarjeta-img">
         <img src="${b.imagen}" alt="${b.titulo}" loading="lazy">
         <span class="${claseEstado}">${b.estado}</span>
-        <span class="tarjeta-tipo">${b.complejo.toUpperCase()}</span>
+        <span class="tarjeta-tipo">${("En renta · " + b.complejo).toUpperCase()}</span>
       </div>
       <div class="tarjeta-body">
         <h3>${b.titulo}</h3>
         <div class="tarjeta-meta">${SVG_PIN} ${b.ubicacion}</div>
         <div class="tarjeta-chips">${chips}</div>
         <div class="tarjeta-pie">
-          <div class="precio">$${formatoPrecio(b.precio).replace("$", "")}<small>${b.area} m² · por mes</small></div>
+          <div class="precio">$${formatoPrecio(b.precio).replace("$", "")}<small>Renta mensual · ${b.area} m²</small></div>
           <a class="btn btn-linea" href="${RUTA_PAGINAS}bodega.html?id=${b.id}">Ver detalles</a>
         </div>
       </div>
@@ -76,6 +76,7 @@ let lightboxTrigger = null;
 function construirDocumentoImpresion(b, fotos) {
   const fecha = new Date().toLocaleDateString("es-MX", { day: "2-digit", month: "long", year: "numeric" });
   const filas = [
+    ["Operación", "Renta"],
     ["Superficie", b.area + " m²"],
     ["Altura libre", b.altura],
     ["Fondo", b.fondo],
@@ -87,6 +88,8 @@ function construirDocumentoImpresion(b, fotos) {
   ].map(([k, v]) => '<tr><td>' + k + '</td><td>' + v + '</td></tr>').join("");
 
   const miniaturas = fotos.slice(1, 4).map((f, i) => '<img src="' + f + '" alt="Foto ' + (i + 2) + '">').join("");
+
+  const etiquetaEstado = b.estado === "Rentada" ? "Rentada" : "En renta · " + b.estado;
 
   return `
     <div class="print-head">
@@ -100,8 +103,8 @@ function construirDocumentoImpresion(b, fotos) {
     </div>
     <h1 class="print-titulo">${b.titulo}</h1>
     <div class="print-ubic">${b.ubicacion} &middot; ${b.complejo}</div>
-    <span class="print-estado">${b.estado}</span>
-    <div class="print-precio">${b.precioTexto} <span style="font-size:12px;color:#6b7280">/ mes</span></div>
+    <span class="print-estado">${etiquetaEstado}</span>
+    <div class="print-precio">${b.precioTexto}</div>
     <img class="print-hero" src="${fotos[0]}" alt="${b.titulo}">
     ${miniaturas ? '<div class="print-thumbs">' + miniaturas + '</div>' : ""}
     <div class="print-grid">
@@ -293,6 +296,7 @@ function cargarDetalle() {
 
         <h2 class="detalle-sub">Especificaciones técnicas</h2>
         <table class="tabla-especificaciones">
+          <tr><td>Operación</td><td>Renta</td></tr>
           <tr><td>Superficie</td><td>${b.area} m²</td></tr>
           <tr><td>Altura libre</td><td>${b.altura}</td></tr>
           <tr><td>Fondo</td><td>${b.fondo}</td></tr>
@@ -305,7 +309,7 @@ function cargarDetalle() {
       </div>
 
       <aside class="panel">
-        <span class="kicker">${b.complejo}</span>
+        <span class="kicker">En renta · ${b.complejo}</span>
         <h1 style="margin-top:8px">${b.titulo}</h1>
         <div class="tarjeta-meta" style="margin-top:8px">${SVG_PIN} ${b.ubicacion}</div>
         <div class="precio-grande">${b.precioTexto}</div>
